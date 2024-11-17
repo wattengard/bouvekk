@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://2apyal8rao24"]
+
+[ext_resource type="Texture2D" uid="uid://vic2y5ydssbq" path="res://penguin/penguin_die01@2x.png" id="1_8l0n0"]
+[ext_resource type="Texture2D" uid="uid://bc2gwud08jiay" path="res://penguin/penguin_die02@2x.png" id="2_ow7uk"]
+[ext_resource type="Texture2D" uid="uid://b0n2136euqlsw" path="res://penguin/penguin_die03@2x.png" id="3_qiytu"]
+[ext_resource type="Texture2D" uid="uid://cjvqdwxebponu" path="res://penguin/penguin_die04@2x.png" id="4_2ogi2"]
+[ext_resource type="Texture2D" uid="uid://qrxb1ulniqaj" path="res://penguin/penguin_die04@2x_grayscale.png" id="5_kigmp"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3heyv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_8l0n0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ow7uk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_qiytu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_2ogi2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_kigmp")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Life" type="AnimatedSprite2D"]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_3heyv")

@@ -1,0 +1,101 @@
+[gd_scene load_steps=15 format=3 uid="uid://cnh4thcjoj4dp"]
+
+[ext_resource type="Script" path="res://trash.gd" id="1_0pcg0"]
+[ext_resource type="Texture2D" uid="uid://duhhicctu7ta0" path="res://trash/cokecan2-left-transparent.png" id="2_6togm"]
+[ext_resource type="Texture2D" uid="uid://d2tb73uvtfy8m" path="res://trash/cokecan2-transparent.png" id="3_iy8o6"]
+[ext_resource type="Texture2D" uid="uid://6pfy6dsykmn2" path="res://trash/cokecan2-right-transparent.png" id="4_we1ki"]
+[ext_resource type="Texture2D" uid="uid://cmpf4n8hthl03" path="res://trash/trashbag-transparent.png" id="5_axcqe"]
+[ext_resource type="Texture2D" uid="uid://d1j777fgiswhy" path="res://trash/cokecan-transparent-left.png" id="5_o2vba"]
+[ext_resource type="Texture2D" uid="uid://cyb3ug33f3ek1" path="res://trash/trashbag-transparent-left.png" id="6_etgh6"]
+[ext_resource type="Texture2D" uid="uid://dukwcvp2bpqw1" path="res://trash/cokecan-transparent.png" id="6_umm6j"]
+[ext_resource type="Texture2D" uid="uid://24ym65hsau57" path="res://trash/trashbag-transparent-right.png" id="7_mnxhx"]
+[ext_resource type="Texture2D" uid="uid://bmdb4pwfe2s1t" path="res://trash/cokecan-transparent-right.png" id="7_spwjb"]
+[ext_resource type="AudioStream" uid="uid://b03l70emd4wmq" path="res://trash/vapourize.wav" id="8_w0173"]
+[ext_resource type="AudioStream" uid="uid://do58l53jbwv7f" path="res://trash/trashbag.wav" id="12_vey1k"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xmwyx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_6togm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_iy8o6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_we1ki")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_iy8o6")
+}],
+"loop": true,
+"name": &"flatcan",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_axcqe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_etgh6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_axcqe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_mnxhx")
+}],
+"loop": true,
+"name": &"garbag",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_o2vba")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_umm6j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_spwjb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_umm6j")
+}],
+"loop": true,
+"name": &"standcan",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m73hi"]
+radius = 128.0
+height = 256.0
+
+[node name="Trash" type="RigidBody2D"]
+collision_mask = 2
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_0pcg0")
+metadata/_edit_group_ = true
+
+[node name="TrashSprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_xmwyx")
+animation = &"garbag"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CapsuleShape2D_m73hi")
+
+[node name="Pshhh" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_w0173")
+
+[node name="Trashcrumple" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_vey1k")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="finished" from="Pshhh" to="." method="_on_pshhh_finished"]
+[connection signal="finished" from="Trashcrumple" to="." method="_on_trashcrumple_finished"]

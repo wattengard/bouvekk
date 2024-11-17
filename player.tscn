@@ -1,0 +1,79 @@
+[gd_scene load_steps=14 format=3 uid="uid://c2qoqmpf1lev8"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_1voma"]
+[ext_resource type="Texture2D" uid="uid://vic2y5ydssbq" path="res://penguin/penguin_die01@2x.png" id="2_s6s0a"]
+[ext_resource type="Texture2D" uid="uid://bc2gwud08jiay" path="res://penguin/penguin_die02@2x.png" id="3_y70bq"]
+[ext_resource type="Texture2D" uid="uid://b0n2136euqlsw" path="res://penguin/penguin_die03@2x.png" id="4_tlono"]
+[ext_resource type="Texture2D" uid="uid://cjvqdwxebponu" path="res://penguin/penguin_die04@2x.png" id="5_2sswg"]
+[ext_resource type="Texture2D" uid="uid://ddkm4dlylqla1" path="res://weapon/søpelgun-transp.png" id="6_vneyx"]
+[ext_resource type="Texture2D" uid="uid://qrxb1ulniqaj" path="res://penguin/penguin_die04@2x_grayscale.png" id="6_ywa8k"]
+[ext_resource type="Texture2D" uid="uid://dysicaxe5qt28" path="res://penguin/penguin_walk01@2x.png" id="7_5vmmi"]
+[ext_resource type="Texture2D" uid="uid://c4okclhomkt5v" path="res://penguin/penguin_walk02@2x.png" id="8_s30hq"]
+[ext_resource type="Texture2D" uid="uid://bhke1bw6cbrq0" path="res://penguin/penguin_walk03@2x.png" id="9_j4esg"]
+[ext_resource type="Texture2D" uid="uid://bbifjrvo3lm2g" path="res://penguin/penguin_walk04@2x.png" id="10_26usb"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dgebg"]
+radius = 53.0
+height = 126.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gcint"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_s6s0a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_y70bq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_tlono")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_2sswg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ywa8k")
+}],
+"loop": true,
+"name": &"ded",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_5vmmi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_s30hq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_j4esg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_26usb")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Player" type="Area2D"]
+position = Vector2(27, 22)
+script = ExtResource("1_1voma")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-11, -1)
+shape = SubResource("CapsuleShape2D_dgebg")
+
+[node name="Penguin" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gcint")
+animation = &"walk"
+speed_scale = 2.0
+
+[node name="Gønner" type="Sprite2D" parent="."]
+position = Vector2(-28, 25)
+scale = Vector2(0.38, 0.38)
+texture = ExtResource("6_vneyx")
+offset = Vector2(57, -40)
+
+[connection signal="frame_changed" from="Penguin" to="." method="_on_penguin_frame_changed"]

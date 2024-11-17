@@ -1,0 +1,137 @@
+[gd_scene load_steps=21 format=3 uid="uid://cedj2op5earym"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_8gmq6"]
+[ext_resource type="PackedScene" uid="uid://lnqhr3aqblak" path="res://bouvetøya.tscn" id="1_tfqv5"]
+[ext_resource type="PackedScene" uid="uid://c2qoqmpf1lev8" path="res://player.tscn" id="2_ois44"]
+[ext_resource type="PackedScene" uid="uid://cnh4thcjoj4dp" path="res://trash.tscn" id="4_13lvo"]
+[ext_resource type="PackedScene" uid="uid://bwva6ef3djf2y" path="res://shark.tscn" id="4_86kqp"]
+[ext_resource type="PackedScene" uid="uid://cvpdujorjsed" path="res://hud.tscn" id="5_tbyfk"]
+[ext_resource type="PackedScene" uid="uid://c8bc6kiu3wale" path="res://shot.tscn" id="5_x3flo"]
+[ext_resource type="AudioStream" uid="uid://r8xjioqr64wb" path="res://game over.wav" id="8_51ice"]
+[ext_resource type="AudioStream" uid="uid://bt2m0y8n3ykye" path="res://trash/trash on land.wav" id="9_hlpm8"]
+[ext_resource type="AudioStream" uid="uid://bab4uml0dfhqj" path="res://music/retro-game-arcade-loop.wav" id="10_v8al4"]
+[ext_resource type="AudioStream" uid="uid://dsh1hbltlgna8" path="res://shark/shark laser.wav" id="11_yp5xi"]
+[ext_resource type="PackedScene" uid="uid://dh5j6op7npd3h" path="res://cruiseship.tscn" id="12_6ndv7"]
+[ext_resource type="AudioStream" uid="uid://en0k48b6rnr3" path="res://cruiseship/Boat Horn 1.wav" id="12_oxp7a"]
+[ext_resource type="AudioStream" uid="uid://dicx1dfc4pn81" path="res://killaudio/penguin dead 1.wav" id="13_k0ygi"]
+[ext_resource type="AudioStream" uid="uid://dt81lvb4j6tgc" path="res://killaudio/penguin dead 2.wav" id="14_g0gxh"]
+[ext_resource type="AudioStream" uid="uid://qonju53c1lwi" path="res://killaudio/penguin dead 3.wav" id="15_7m7es"]
+
+[sub_resource type="Curve2D" id="Curve2D_dvuft"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1919, 3, 0, 0, 0, 0, 1919, 1075)
+}
+point_count = 2
+
+[sub_resource type="Curve2D" id="Curve2D_o61we"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 800, 1111, 0, 0, 0, 0, 1300, 1111)
+}
+point_count = 2
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8tdtx"]
+playback_mode = 1
+streams_count = 3
+stream_0/stream = ExtResource("13_k0ygi")
+stream_1/stream = ExtResource("14_g0gxh")
+stream_2/stream = ExtResource("15_7m7es")
+
+[sub_resource type="Curve2D" id="Curve2D_rb7p8"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2070, 547, 0, 0, 0, 0, 1266, 545, 0, 0, 0, 0, 2070, 547)
+}
+point_count = 3
+
+[node name="Main" type="CanvasLayer"]
+script = ExtResource("1_8gmq6")
+trash_scene = ExtResource("4_13lvo")
+shot_scene = ExtResource("5_x3flo")
+shark_scene = ExtResource("4_86kqp")
+hud = ExtResource("5_tbyfk")
+
+[node name="Bouvetøya" parent="." instance=ExtResource("1_tfqv5")]
+
+[node name="Player" parent="." instance=ExtResource("2_ois44")]
+position = Vector2(116, 175)
+
+[node name="TrashSpawnPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_dvuft")
+
+[node name="TrashSpawnLocation" type="PathFollow2D" parent="TrashSpawnPath"]
+position = Vector2(1919, 3)
+rotation = 1.5708
+
+[node name="SharkSpawnPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_o61we")
+
+[node name="SharkSpawnLocation" type="PathFollow2D" parent="SharkSpawnPath"]
+position = Vector2(800, 1111)
+
+[node name="HUD" parent="." instance=ExtResource("5_tbyfk")]
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="GameOver" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("8_51ice")
+volume_db = 5.0
+
+[node name="TrashOnLand" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("9_hlpm8")
+volume_db = -20.0
+
+[node name="BGM" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("10_v8al4")
+volume_db = -25.0
+
+[node name="SharkHit" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("11_yp5xi")
+volume_db = -20.0
+
+[node name="Cruiseboat" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("12_oxp7a")
+volume_db = -25.0
+
+[node name="LostLife" type="AudioStreamPlayer" parent="Audio"]
+stream = SubResource("AudioStreamRandomizer_8tdtx")
+volume_db = -20.0
+
+[node name="Cruiseship" type="Node" parent="."]
+
+[node name="CruiseshipScene" parent="Cruiseship" instance=ExtResource("12_6ndv7")]
+position = Vector2(2070, 578)
+flip_h = true
+
+[node name="CruisePath" type="Path2D" parent="Cruiseship"]
+curve = SubResource("Curve2D_rb7p8")
+
+[node name="CruisePathFollow" type="PathFollow2D" parent="Cruiseship/CruisePath"]
+position = Vector2(2070, 547)
+rotation = -3.13911
+rotates = false
+loop = false
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="SharkSpawnTimer" type="Timer" parent="Timers"]
+
+[node name="ShotLimitTimer" type="Timer" parent="Timers"]
+wait_time = 0.2
+one_shot = true
+
+[node name="TrashTimer" type="Timer" parent="Timers"]
+
+[node name="CruiseBoatTimer" type="Timer" parent="Timers"]
+wait_time = 10.0
+
+[node name="EndGameTimer" type="Timer" parent="Timers"]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="hit" from="Bouvetøya" to="." method="_on_bouvetøya_hit"]
+[connection signal="hit" from="Bouvetøya" to="HUD" method="garbage_hit_land"]
+[connection signal="lost_life" from="HUD" to="." method="_on_hud_lost_life"]
+[connection signal="player_dead" from="HUD" to="." method="_on_hud_player_dead"]
+[connection signal="timeout" from="Timers/SharkSpawnTimer" to="." method="_on_shark_spawn_timer_timeout"]
+[connection signal="timeout" from="Timers/TrashTimer" to="." method="_on_trash_timer_timeout"]
+[connection signal="timeout" from="Timers/CruiseBoatTimer" to="." method="_on_cruise_boat_timer_timeout"]
+[connection signal="timeout" from="Timers/EndGameTimer" to="." method="_on_end_game_timer_timeout"]

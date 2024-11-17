@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://cvpdujorjsed"]
+
+[ext_resource type="FontFile" uid="uid://dvy3i8vik4kut" path="res://Rosemary.ttf" id="1_f84or"]
+[ext_resource type="Script" path="res://hud.gd" id="1_puq48"]
+[ext_resource type="Script" path="res://lives.gd" id="2_82ejm"]
+[ext_resource type="PackedScene" uid="uid://2apyal8rao24" path="res://life.tscn" id="3_nh5rb"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_puq48")
+
+[node name="Score" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -266.0
+offset_bottom = 97.0
+grow_horizontal = 0
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("1_f84or")
+theme_override_font_sizes/font_size = 82
+text = "Score 0"
+
+[node name="Lives" type="Node2D" parent="."]
+position = Vector2(72, 64)
+script = ExtResource("2_82ejm")
+life_scene = ExtResource("3_nh5rb")
+metadata/_edit_group_ = true
+
+[connection signal="lost_life" from="Lives" to="." method="_on_lives_lost_life"]
+[connection signal="player_dead" from="Lives" to="." method="report_player_dead"]

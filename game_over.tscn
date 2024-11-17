@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://cex6it4a4qnxf"]
+
+[ext_resource type="Script" path="res://game_over.gd" id="1_dg1y4"]
+[ext_resource type="Texture2D" uid="uid://bffky3n418f2d" path="res://splash/Game over.png" id="1_oyep4"]
+[ext_resource type="FontFile" uid="uid://dvy3i8vik4kut" path="res://Rosemary.ttf" id="2_pin6j"]
+
+[node name="GameOver" type="CanvasLayer"]
+script = ExtResource("1_dg1y4")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_oyep4")
+
+[node name="QuitButton" type="Button" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -157.5
+offset_top = 50.0
+offset_right = 157.5
+offset_bottom = 175.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_pin6j")
+theme_override_font_sizes/font_size = 100
+text = "Start på nytt"
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -427.0
+offset_top = 331.0
+offset_right = 427.0
+offset_bottom = 448.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.186666, 0, 0.56, 1)
+theme_override_fonts/font = ExtResource("2_pin6j")
+theme_override_font_sizes/font_size = 100
+text = "Din score ble 000000"
+
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]

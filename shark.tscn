@@ -1,0 +1,82 @@
+[gd_scene load_steps=10 format=3 uid="uid://bwva6ef3djf2y"]
+
+[ext_resource type="Texture2D" uid="uid://ccg7kifb2wkga" path="res://shark/shark-rett-hale-transparent.png" id="1_4gv78"]
+[ext_resource type="Script" path="res://shark.gd" id="1_w8k2c"]
+[ext_resource type="Texture2D" uid="uid://cv5mc5hbkdd36" path="res://shark/shark-transparent.png" id="2_2rioi"]
+[ext_resource type="Texture2D" uid="uid://dy4tkku1bjb3o" path="res://shark/shark2-transparent.png" id="4_gq0ab"]
+[ext_resource type="Texture2D" uid="uid://dcf5it81s86fk" path="res://shark/shark-rett-hale-shadow-transparent.png" id="4_p1qlx"]
+[ext_resource type="Texture2D" uid="uid://dpquy84hlpppx" path="res://shark/shark-shadow-transparent.png" id="5_16e7o"]
+[ext_resource type="Texture2D" uid="uid://81d653ckrxni" path="res://shark/shark2-shadow-transparent.png" id="7_l0hw6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pg2os"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_4gv78")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_2rioi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_4gv78")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gq0ab")
+}],
+"loop": true,
+"name": &"overwater",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_p1qlx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_16e7o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_p1qlx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_l0hw6")
+}],
+"loop": true,
+"name": &"underwater",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xalra"]
+radius = 69.0
+height = 434.0
+
+[node name="Shark" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 2
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_w8k2c")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_pg2os")
+animation = &"underwater"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CapsuleShape2D_xalra")
+
+[node name="UnderTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="OverTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="shark_hit"]
+[connection signal="timeout" from="UnderTimer" to="." method="go_over"]
+[connection signal="timeout" from="OverTimer" to="." method="go_under"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
